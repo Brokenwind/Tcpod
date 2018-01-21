@@ -23,8 +23,8 @@ def main():
   sess = tf.Session()
   init = tf.global_variables_initializer()
   sess.run(init)
-  # Train
-  for i in range(10):
+  # Train the model with batch gradient descent method
+  for i in range(20):
     batches = gen_batches(m, batch_size)
     for batch in batches:
       batch_xs = train_imgs[batch]
@@ -32,7 +32,6 @@ def main():
       sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
 
   # Test trained model
-  print(sess.run(W))
   correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
   accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
   print(sess.run(accuracy, feed_dict={x: train_imgs, y_: train_labels}))

@@ -57,22 +57,16 @@ def main():
   sess = tf.Session()
   sess.run(tf.global_variables_initializer())
 
-  for i in range(2):
+  for i in range(10):
     batches = gen_batches(m, batch_size)
     for batch in batches:
       batch_xs = train_imgs[batch]
       batch_ys = train_labels[batch]
       sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys, keep_prob: 0.6})
-  """
-  for i in range(20000):
-    batch = mnist.train.next_batch(50)
-    if i%100 == 0:
-      train_accuracy = accuracy.eval(feed_dict={ x:batch[0], y_: batch[1], keep_prob: 1.0 })
-      print "step %d, training accuracy %g"%(i, train_accuracy)
-    train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
-  """
-
-  print ( "test accuracy %g" % accuracy.eval(feed_dict={x: test_imgs, y_: test_labels, keep_prob: 1.0}))
+    print ( "Test accuracy in %dth iteration is %g" % (i, sess.run(accuracy,feed_dict={
+      x: test_imgs[0:1000],
+      y_: test_labels[0:1000],
+      keep_prob: 1.0 })))
 
 if __name__ == '__main__':
   main()
